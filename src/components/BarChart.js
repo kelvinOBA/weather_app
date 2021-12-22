@@ -1,24 +1,17 @@
-import {forwardRef, useState, useImperativeHandle} from "react";
-import Popover from '@mui/material/Popover';
-import Button from '@mui/material/Button';
-import { VictoryBar,VictoryChart , VictoryAxis, VictoryTheme} from 'victory';
+import { forwardRef, useState, useImperativeHandle } from "react";
+import Popover from "@mui/material/Popover";
+import { VictoryBar, VictoryChart, VictoryLabel, VictoryTheme } from "victory";
 
-
-const BarChart = forwardRef((props, ref)=> {
+const BarChart = forwardRef((props, ref) => {
   const [anchorEl, setAnchorEl] = useState(null);
-
-console.log(props.chartData, 'bar')
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   useImperativeHandle(ref, () => ({
-
-    openPopOver(e){
-        handleClick(e) 
-
-    }
-
+    openPopOver(e) {
+      handleClick(e);
+    },
   }));
 
   const handleClose = () => {
@@ -26,36 +19,33 @@ console.log(props.chartData, 'bar')
   };
 
   const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
+  const id = open ? "simple-popover" : undefined;
 
   return (
     <div>
-      
       <Popover
         id={id}
         open={open}
         anchorEl={anchorEl}
         onClose={handleClose}
         anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left',
+          vertical: "bottom",
+          horizontal: "left",
         }}
       >
-       <VictoryChart
-          domainPadding={20}
-          theme={VictoryTheme.material}
-       >
+        <VictoryChart domainPadding={20} theme={VictoryTheme.material}>
           <VictoryBar
-        data={props.chartData.slice(0,5)}
-        // data accessor for x values
-        x="hour"
-        // data accessor for y values
-        y="temp"
-      />
-      </VictoryChart>
+            data={props.chartData.slice(0, 5)}
+            // data accessor for x values
+            x="hour"
+            // data accessor for y values
+            y="temp"
+          />
+          <VictoryLabel desc="an svg coordinate label" />
+        </VictoryChart>
       </Popover>
     </div>
   );
-})
+});
 
-export default BarChart
+export default BarChart;
